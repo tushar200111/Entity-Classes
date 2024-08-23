@@ -1,114 +1,79 @@
 package com.hsbc.model;
 
-
-import java.sql.Date;
-import java.sql.Time;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 public class Booking {
+    private int bookingId;
+    private int roomId;
+    private int userId;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private int totalCost;
+    private String type;
 
-    private final String uID;
-    private String roomId;
-    private Date bookingDate;
-    private Time startTime;
-    private Time endTime;
-    private String bookedBy;
-
-    public Booking(String roomId, Date bookingDate, Time startTime, Time endTime, String bookedBy) {
-        this.uID = generateUID();
+    public Booking(int bookingId, int roomId, int userId, LocalDateTime startTime, LocalDateTime endTime, int totalCost, String type) {
+        this.bookingId = bookingId;
         this.roomId = roomId;
-        this.bookingDate = bookingDate;
+        this.userId = userId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.bookedBy = bookedBy;
+        this.totalCost = totalCost;
+        this.type = type;
     }
 
-    public Booking(String uID, String roomId, Date bookingDate, Time startTime, Time endTime, String bookedBy) {
-        this.uID = uID;
-        this.roomId = roomId;
-        this.bookingDate = bookingDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.bookedBy = bookedBy;
+    public int getBookingId() {
+        return bookingId;
     }
 
-    public String getRoomId() {
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(String roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
-    public Date getDate() {
-        return bookingDate;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Time getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
-    public String getBookedBy() {
-        return bookedBy;
+    public int getTotalCost() {
+        return totalCost;
     }
 
-    public void setBookedBy(String bookedBy) {
-        this.bookedBy = bookedBy;
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
     }
 
-    public String getuID() {
-        return uID;
+    public String getType() {
+        return type;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((uID == null) ? 0 : uID.hashCode());
-        return result;
+    public void setType(String type) {
+        this.type = type;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Booking other = (Booking) obj;
-        if (uID == null) {
-            if (other.uID != null)
-                return false;
-        } else if (!uID.equals(other.uID))
-            return false;
-        return true;
-    }
-
-    public String generateUID() {
-        return UUID.randomUUID().toString().replaceAll("[\\s\\-()]", "").substring(0, 5).toUpperCase();
-    }
-
-    @Override
-    public String toString() {
-        return "Booking [uID=" + uID + ", roomId=" + roomId + ", bookingDate=" + bookingDate + ", startTime="
-                + startTime + ", endTime=" + endTime + ", bookedBy=" + bookedBy + "]";
-    }
-
 }

@@ -1,40 +1,20 @@
 package com.hsbc.model;
 
-
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Meeting {
-
-    private final String uID;
     private String title;
     private String type;
-    private User[] attendees;
+    private int userId;
+    private List<User> attendes = new ArrayList<>();
     private Booking booking;
 
-    public Meeting(String title, String type, User[] attendees, Booking booking) {
-        this.uID = generateUID();
-        this.title = title;
+    public Meeting(Booking booking, int userId, String type, String title) {
+        this.booking = booking;
+        this.userId = userId;
         this.type = type;
-        this.attendees = attendees;
-        this.booking = booking;
-    }
-
-    public Meeting(String title, String type, Booking booking) {
-        this.uID = generateUID();
         this.title = title;
-        this.type = type;
-        this.booking = booking;
-    }
-
-    public Meeting(String uID, String title, String type, Booking booking) {
-        super();
-        this.uID = uID;
-        this.title = title;
-        this.booking = booking;
-    }
-
-    public String generateUID() {
-        return UUID.randomUUID().toString().replaceAll("[\\s\\-()]", "").substring(0, 5).toUpperCase();
     }
 
     public String getTitle() {
@@ -53,12 +33,12 @@ public class Meeting {
         this.type = type;
     }
 
-    public User[] getAttendees() {
-        return attendees;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setAttendees(User[] attendees) {
-        this.attendees = attendees;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Booking getBooking() {
@@ -69,8 +49,11 @@ public class Meeting {
         this.booking = booking;
     }
 
-    public String getuID() {
-        return uID;
+    public void setAttendes(User attende){
+        attendes.add(attende);
     }
 
+    public List<User> getAttendes() {
+        return attendes;
+    }
 }

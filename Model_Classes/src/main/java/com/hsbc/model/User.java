@@ -1,46 +1,33 @@
 package com.hsbc.model;
 
-import java.util.UUID;
-
 public class User {
-
-    private final String uID;
+    private int userId;
     private String name;
     private String email;
     private long phone;
     private String role;
     private int credits = 0;
 
-    public User(String name, String email, long phone, String role) {
-        super();
-        this.uID = generateUID();
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.role = role.toLowerCase();
-        if (role.equalsIgnoreCase("manager")) {
-            this.credits = 2000;
-        }
-    }
-
-    public User(String uID, String name, String email, long phone, String role, int credits) {
-        super();
-        this.uID = uID;
+    public User(int userId, String name, String email, long phone, String role) {
+        this.userId = userId;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.role = role;
-        this.credits = credits;
+        if(role.equals("manager"))
+            credits = 2000;
     }
 
-    public User(String uID, String name) {
-        super();
-        this.uID = uID;
-        this.name = name;
+    public User(){
+
     }
 
-    public String generateUID() {
-        return UUID.randomUUID().toString().replaceAll("[\\s\\-()]", "").substring(0, 5).toUpperCase();
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -83,8 +70,16 @@ public class User {
         this.credits = credits;
     }
 
-    public String getuID() {
-        return uID;
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone=" + phone +
+                ", role='" + role + '\'' +
+                ", credits=" + credits +
+                '}';
     }
-
 }
+
