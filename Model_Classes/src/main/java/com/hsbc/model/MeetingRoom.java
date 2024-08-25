@@ -7,14 +7,21 @@ public class MeetingRoom {
     private int roomId;
     private String roomName;
     private int seatingCapacity;
+    private String amenties;
 
+    public String getAmenties() {
+        return amenties;
+    }
 
-    private List<Amenity> amenities = new ArrayList<>();
+    public void setAmenties(String amenties) {
+        this.amenties = amenties;
+    }
 
-    public MeetingRoom(int roomId, int seatingCapacity, String roomName) {
+    public MeetingRoom(int roomId, int seatingCapacity, String roomName,String amenties) {
         this.roomId = roomId;
         this.seatingCapacity = seatingCapacity;
         this.roomName = roomName;
+        this.amenties = amenties;
     }
 
     public int getRoomId() {
@@ -41,11 +48,4 @@ public class MeetingRoom {
         this.seatingCapacity = seatingCapacity;
     }
 
-    public void setAmenities(Amenity amenity){
-        amenities.add(amenity);
-    }
-
-    public List<Amenity> getAmenities(){
-        return amenities;
-    }
 }

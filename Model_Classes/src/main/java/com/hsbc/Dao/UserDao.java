@@ -10,7 +10,6 @@ public interface UserDao {
 
     public List<Booking> viewUserMeetings(int userId);
 
-    public Booking getUserMeetingDetails(int bookingId, int userId);
 
     public User getUserById(int userId);
 }

@@ -3,22 +3,19 @@ package com.hsbc.Dao;
 import com.hsbc.model.Booking;
 import com.hsbc.model.User;
 import com.hsbc.model.Meeting;
+import com.hsbc.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-
-
+import java.util.stream.Collectors;
 
 
 public class ManagerDaoImpl implements ManagerDao {
-    private static final String URL = "jdbc:mysql://localhost:3306/meeting_db"; // Update with your database URL
-    private static final String USER = "root"; // Update with your database username
-    private static final String PASSWORD = "password"; // Update with your database password
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DatabaseConnection.getLocalConnection();
     }
 
     @Override
@@ -51,7 +48,10 @@ public class ManagerDaoImpl implements ManagerDao {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                List<String> amenities = List.of(rs.getString("amenities").split(","));
+                List<String> amenities = Arrays.stream(rs.getString("amenities").split(","))
+                        .map(String::trim)  // Remove any leading/trailing whitespace
+                        .map(String::toLowerCase)  // Convert to lowercase
+                        .collect(Collectors.toList());
 
                 switch (booking.getType().toLowerCase()) {
                     case "classroom training":
@@ -59,7 +59,7 @@ public class ManagerDaoImpl implements ManagerDao {
                     case "online training":
                         return amenities.contains("wifi") && amenities.contains("projector");
                     case "conference call":
-                        return amenities.contains("conference call facility");
+                        return amenities.contains("conference call");
                     case "business":
                         return amenities.contains("projector");
                     default:
@@ -74,22 +74,14 @@ public class ManagerDaoImpl implements ManagerDao {
 
     @Override
     public boolean addUserToMeeting(int bookingId, int userId) {
-        String selectSql = "SELECT meeting_id FROM meetings WHERE booking_id = ?";
-        String insertSql = "INSERT INTO meeting_users (meeting_id, user_id) VALUES (?, ?)";
-        try (Connection conn = getConnection(); PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
+        String sql = "INSERT INTO meeting_users (meeting_id, user_id) VALUES (?, ?)";
+        try (Connection conn = getConnection(); PreparedStatement selectStmt = conn.prepareStatement(sql)) {
             selectStmt.setInt(1, bookingId);
-            ResultSet rs = selectStmt.executeQuery();
+            selectStmt.setInt(2, userId);
+            int rowsAffected = selectStmt.executeUpdate();
 
-            if (rs.next()) {
-                int meetingId = rs.getInt("meeting_id");
-
-                try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
-                    insertStmt.setInt(1, meetingId);
-                    insertStmt.setInt(2, userId);
-                    int rowsAffected = insertStmt.executeUpdate();
-                    return rowsAffected > 0;
-                }
-            }
+          //  int rowsAffected = insertStmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,7 +100,7 @@ public class ManagerDaoImpl implements ManagerDao {
                         rs.getInt("user_id"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getLong("phone"),
+                        rs.getString("phone"),
                         rs.getString("role")
                 );
                 users.add(user);

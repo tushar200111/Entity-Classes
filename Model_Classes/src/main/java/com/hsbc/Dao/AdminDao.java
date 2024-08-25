@@ -29,6 +29,6 @@ public interface AdminDao {
     public List<MeetingRoom> getAllMeetingRooms();
 
     // Get Booking and meeting Details
-    public List<Booking> getBookingDetails(int bookingId);
+    public List<Booking> getBookingDetails();
     public Meeting getMeetingDetails(int MeetingId);
 }

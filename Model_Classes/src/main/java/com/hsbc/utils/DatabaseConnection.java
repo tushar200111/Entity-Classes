@@ -8,8 +8,8 @@ public class DatabaseConnection {
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
 
-    private static final String LOCAL_DB_URL = "jjdbc:mysql://127.0.0.1:3306/meetingroomdb";
-    private static final String LOCAL_USER = "temp";
+    private static final String LOCAL_DB_URL = "jdbc:mysql://127.0.0.1:3306/meetingroomdb";
+    private static final String LOCAL_USER = "TempUser";
     private static final String LOCAL_PASS = "";
 
     public static Connection getLocalConnection() {
